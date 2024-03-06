@@ -1,11 +1,49 @@
-import React from 'react';
-import { GithubContext } from '../context/context';
-import styled from 'styled-components';
-import { GoRepo, GoGist } from 'react-icons/go';
-import { FiUsers, FiUserPlus } from 'react-icons/fi';
+import React from "react";
+import { GithubContext } from "../context/context";
+import styled from "styled-components";
+import { GoRepo, GoGift } from "react-icons/go";
+import { FiUsers, FiUserPlus } from "react-icons/fi";
 
+// 유저 정보
 const UserInfo = () => {
-  return <h2>user info component</h2>;
+  // useContext 훅을 사용하여, GithubContext를 불러옴.
+  // Destructure (구조분해할당) 함.
+  const { githubUser } = React.useContext(GithubContext);
+  // githubUser는 mockUser.js에서 가져온 데이터이므로, 거기서 필요한 데이터들만 가져옴
+  const { public_repos, followers, following, public_gists } = githubUser;
+
+  const items = [
+    {
+      id: 1,
+      icon: <GoRepo className="icon" />,
+      label: "repos",
+      value: public_repos,
+      color: "pink", // const Wrapper에 정의됨
+    },
+    {
+      id: 2,
+      icon: <FiUsers className="icon" />,
+      label: "followers",
+      value: followers,
+      color: "green", // const Wrapper에 정의됨
+    },
+    {
+      id: 3,
+      icon: <FiUserPlus className="icon" />,
+      label: "following",
+      value: following,
+      color: "purple", // const Wrapper에 정의됨
+    },
+    {
+      id: 4,
+      icon: <GoGift className="icon" />,
+      label: "public_gists",
+      value: public_gists,
+      color: "yellow", // const Wrapper에 정의됨
+    },
+  ];
+
+  return <section className="section"></section>;
 };
 
 const Wrapper = styled.section`
