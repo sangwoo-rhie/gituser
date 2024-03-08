@@ -4,13 +4,14 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 function App() {
   return (
+    // <AuthWrapper>
     <Router>
       {/* Switch는 <Route>와 일치하는 첫번째 child를 렌더링함. 따라서 전체 컴포넌트를 Switch안에 넣음*/}
       <Switch>
         {/* 대시보드 path , exact는 오직 url이 일치해야만한다는 뜻.*/}
-        <Route path="/" exact={true}>
+        <PrivateRoute path="/" exact={true}>
           <Dashboard></Dashboard>
-        </Route>
+        </PrivateRoute>
 
         {/* 로그인 path */}
         <Route path="/login">
@@ -23,6 +24,7 @@ function App() {
         </Route>
       </Switch>
     </Router>
+    // </AuthWrapper>
   );
 }
 

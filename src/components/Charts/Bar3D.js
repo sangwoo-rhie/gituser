@@ -1,7 +1,34 @@
-import React from 'react';
+import React from "react";
+import ReactFC from "react-fusioncharts";
+import FusionCharts from "fusioncharts";
+import Chart from "fusioncharts/fusioncharts.charts";
+import FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
 
-const Bar3D = () => {
-  return <div>chart</div>;
+ReactFC.fcRoot(FusionCharts, Chart, FusionTheme);
+
+// 차트 컴포넌트
+const Bar3D = ({ data }) => {
+  const chartConfigs = {
+    type: "bar3d", // The chart type (column2d 도 있고, bar3d 도 있다.)
+    width: "100%", // Width of the chart
+    height: "400", // Height of the chart
+    dataFormat: "json", // Data type
+    dataSource: {
+      chart: {
+        caption: "Most Forked",
+        yAxisName: "Forks",
+        xAxisName: "Repos",
+        yAxisNameFontSize: "16px",
+        xAxisNameFontSize: "16px",
+      },
+      data: data,
+    },
+  };
+
+  return <ReactFC {...chartConfigs} />;
 };
 
 export default Bar3D;
+
+// 아래 Render the Chart에서 가져옴
+// https://www.fusioncharts.com/dev/getting-started/react/your-first-chart-using-react

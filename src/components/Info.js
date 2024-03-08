@@ -4,46 +4,68 @@ import styled from "styled-components";
 import { GoRepo, GoGift } from "react-icons/go";
 import { FiUsers, FiUserPlus } from "react-icons/fi";
 
-// 유저 정보
+// 유저 정보 컴포넌트 (repos, followers, following, public_gists)
 const UserInfo = () => {
   // useContext 훅을 사용하여, GithubContext를 불러옴.
-  // Destructure (구조분해할당) 함.
+  // GithubContext에서 githubUser값만을 가져오기 위해 Destructure (구조분해할당) 함.
   const { githubUser } = React.useContext(GithubContext);
   // githubUser는 mockUser.js에서 가져온 데이터이므로, 거기서 필요한 데이터들만 가져옴
   const { public_repos, followers, following, public_gists } = githubUser;
 
   const items = [
     {
+      //
       id: 1,
-      icon: <GoRepo className="icon" />,
+      icon: <GoRepo className="icon" />, // 리액트에서 아이콘 따옴
       label: "repos",
       value: public_repos,
-      color: "pink", // const Wrapper에 정의됨
+      color: "pink", // Wrapper 컴포넌트에 정의됨
     },
     {
       id: 2,
       icon: <FiUsers className="icon" />,
       label: "followers",
       value: followers,
-      color: "green", // const Wrapper에 정의됨
+      color: "green", // Wrapper 컴포넌트에 정의됨
     },
     {
       id: 3,
       icon: <FiUserPlus className="icon" />,
       label: "following",
       value: following,
-      color: "purple", // const Wrapper에 정의됨
+      color: "purple", // Wrapper 컴포넌트에 정의됨
     },
     {
       id: 4,
       icon: <GoGift className="icon" />,
       label: "public_gists",
       value: public_gists,
-      color: "yellow", // const Wrapper에 정의됨
+      color: "yellow", // Wrapper 컴포넌트에 정의됨
     },
   ];
 
-  return <section className="section"></section>;
+  return (
+    <section className="section">
+      <Wrapper className="section-center">
+        {items.map((item) => {
+          // 바로 아래 정의된 Item 컴포넌트 가져옴, rest parameter로 item 다 가져옴
+          return <Item key={item.id} {...item}></Item>;
+        })}
+      </Wrapper>
+    </section>
+  );
+};
+
+const Item = ({ icon, label, value, color }) => {
+  return (
+    <article className="item">
+      <span className={color}>{icon}</span>
+      <div>
+        <h3>{value}</h3>
+        <p>{label}</p>
+      </div>
+    </article>
+  );
 };
 
 const Wrapper = styled.section`

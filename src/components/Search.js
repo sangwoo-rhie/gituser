@@ -1,9 +1,54 @@
-import React from 'react';
-import styled from 'styled-components';
-import { MdSearch } from 'react-icons/md';
-import { GithubContext } from '../context/context';
+import React from "react";
+import styled from "styled-components";
+import { MdSearch } from "react-icons/md"; // 아이콘 컴포넌트
+import { GithubContext } from "../context/context";
+
+// Search bar 컴포넌트
 const Search = () => {
-  return <h2>search component</h2>;
+  const [user, setUser] = React.useState("");
+  // useContext 훅을 사용하여, GithubContext를 불러옴.
+  // GithubContext에서 request 값만을 가져오기 위해 Destructure (구조분해할당) 함.
+  const { requests, error, searchGitHubUser, isLoading } =
+    React.useContext(GithubContext);
+  // console.log("requests", requests);
+
+  // 입력창 : get things from global context
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (user) {
+      searchGitHubUser(user); // 유저찾기
+    }
+  };
+  return (
+    <section className="section">
+      <Wrapper className="section-center">
+        {/* show 프로퍼티가 true인 경우에만 에러 반환 */}
+        {error.show && (
+          <ErrorWrapper>
+            <p>{error.message}</p>
+          </ErrorWrapper>
+        )}
+        {/* 입력 컴포넌트 */}
+        <form onSubmit={handleSubmit}>
+          <div className="form-control">
+            <MdSearch />
+            <input
+              type="text"
+              placeholder="GitHub 유저를 입력하세요."
+              value={user}
+              onChange={(e) => setUser(e.target.value)}
+            />
+            {/* requests가 0보다 크고, 로딩이 없는 경우만 버튼을 표시한다. */}
+            {requests > 0 && !isLoading && (
+              <button type="submit">Search</button>
+            )}
+          </div>
+        </form>
+        {/* 얼마나 많은 방문이 있었는지 요청(Request) 수 조회 */}
+        <h3>Requests : {requests} / 60</h3>
+      </Wrapper>
+    </section>
+  );
 };
 
 const Wrapper = styled.div`
@@ -75,6 +120,8 @@ const Wrapper = styled.div`
     font-weight: 400;
   }
 `;
+
+// 에러 Wrapper
 const ErrorWrapper = styled.article`
   position: absolute;
   width: 90vw;

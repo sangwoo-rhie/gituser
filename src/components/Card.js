@@ -1,9 +1,52 @@
-import React from 'react';
-import { GithubContext } from '../context/context';
-import styled from 'styled-components';
-import { MdBusiness, MdLocationOn, MdLink } from 'react-icons/md';
+import React from "react";
+import { GithubContext } from "../context/context";
+import styled from "styled-components";
+import { MdBusiness, MdLocationOn, MdLink } from "react-icons/md"; // 비즈니스 아이콘들
+
+// 카드 컴포넌트 (유저의 정보 중 아래 avatar_url, html_url,... 등등이 적혀있는 카드 컴포넌트)
 const Card = () => {
-  return <h2>card component</h2>;
+  // useContext 훅을 사용하여, GithubContext를 불러옴.
+  // GithubContext에서 githubUser값만을 가져오기 위해 Destructure (구조분해할당) 함.
+  const { githubUser } = React.useContext(GithubContext);
+  // githubUser는 mockUser.js에서 가져온 데이터이므로, 거기서 필요한 데이터들만 가져옴
+  const {
+    avatar_url,
+    html_url,
+    name,
+    company,
+    blog,
+    bio,
+    location,
+    twitter_username,
+  } = githubUser;
+
+  return (
+    <Wrapper>
+      <header>
+        {/* src: 이미지 소스, alt: 이미지가 없을경우 대체 이미지or텍스트 */}
+        <img src={avatar_url} alt={name} />
+        <div>
+          <h4>{name}</h4>
+          {/* 만약 twitter_username이 null값이 경우 대체 텍스트 */}
+          <p>@{twitter_username || "john doe"}</p>
+        </div>
+        <a href={html_url}>follow</a> {/* 클릭시 해당 url로 넘어감 */}
+      </header>
+      <p className="bio">{bio}</p>
+      <div className="links">
+        <p>
+          <MdBusiness /> {company} {/* 비즈니스 아이콘 컴포넌트들 */}
+        </p>
+        <p>
+          <MdLocationOn /> {location}
+        </p>
+        {/* 클릭시 해당 url로 넘어감 */}
+        <a href={`https://${blog}`}>
+          <MdLink></MdLink> {blog}
+        </a>
+      </div>
+    </Wrapper>
+  );
 };
 const Wrapper = styled.article`
   background: var(--clr-white);
@@ -13,7 +56,7 @@ const Wrapper = styled.article`
   border-bottom-right-radius: var(--radius);
   position: relative;
   &::before {
-    content: 'user';
+    content: "user";
     position: absolute;
     top: 0;
     left: 0;

@@ -1,9 +1,33 @@
-import React from 'react';
-import { GithubContext } from '../context/context';
-import styled from 'styled-components';
+import React from "react";
+import { GithubContext } from "../context/context";
+import styled from "styled-components";
 
+// 팔로워 컴포넌트
 const Followers = () => {
-  return <h2>followers component</h2>;
+  // useContext 훅을 사용하여, GithubContext를 불러옴.
+  // GithubContext에서 followers값만을 가져오기 위해 Destructure (구조분해할당) 함.
+  const { followers } = React.useContext(GithubContext);
+
+  // followers에서 필요한 인자값들은 map함수 내에서 구조분해할당해서 가져옴
+  return (
+    <Wrapper>
+      <div className="followers">
+        {followers.map((followers, index) => {
+          // img는 아래 Wrapper컴포넌트에서, html_url와 login는 위에 디스트럭처링된 followers에서 가져옴
+          const { avatar_url: img, html_url, login } = followers;
+          return (
+            <article key={index}>
+              <img src={img} alt={login} />
+              <div>
+                <h4>{login}</h4>
+              </div>
+              <a href={html_url}>{html_url}</a>
+            </article>
+          );
+        })}
+      </div>
+    </Wrapper>
+  );
 };
 
 const Wrapper = styled.article`
@@ -14,7 +38,7 @@ const Wrapper = styled.article`
   position: relative;
 
   &::before {
-    content: ' followers';
+    content: " followers";
     position: absolute;
     top: 0;
     left: 0;
