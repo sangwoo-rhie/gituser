@@ -5,13 +5,16 @@ import loginImg from "../images/login-img.svg";
 
 // 로그인
 const SignIn = () => {
+  const { loginWithRedirect } = useAuth0();
   return (
     <Wrapper>
       <div className="container">
         {/* src = 이미지소스, alt = 얼터너티브 텍스트(이미지 없을 때) */}
         <img src={loginImg} alt="github user" />
         <h1>GitHub User</h1>
-        <button className="btn">Login</button>
+        <button className="btn" onClick={loginWithRedirect}>
+          Login / Sign-up
+        </button>
       </div>
     </Wrapper>
   );
